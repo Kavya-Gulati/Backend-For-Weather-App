@@ -1,11 +1,13 @@
 # Lab 10(b): Flask application with routes and HTTP methods.
 #
 # Routes:
-#   GET    /                       -> health check
+#   GET    /                       -> Home/Base
 #   GET    /api/weather?city=XYZ   -> weather for a city
 #   GET    /api/favorites          -> list saved favorite cities
 #   POST   /api/favorites          -> add a favorite   (JSON body: {"city": "Delhi"})
 #   DELETE /api/favorites/<city>   -> remove a favorite
+
+
 import json
 import os
 
@@ -13,9 +15,10 @@ from flask import Flask, jsonify, request
 
 from weather_service import fetch_weather, WeatherError
 
+#creates the web app
 app = Flask(__name__)
 
-# Favorites are stored in a small JSON file (simple "database" for a mini project).
+#favorites are stored in a small JSON file.
 FAVORITES_FILE = os.path.join(os.path.dirname(__file__), "favorites.json")
 
 
@@ -45,9 +48,11 @@ def get_weather():
         return jsonify({"error": error.message}), error.status_code
 
 
+
 @app.route("/api/favorites", methods=["GET"])
 def list_favorites():
     return jsonify(load_favorites()), 200
+
 
 
 @app.route("/api/favorites", methods=["POST"])
@@ -85,4 +90,6 @@ def remove_favorite(city):
 
 if __name__ == "__main__":
     # debug=True auto-reloads while developing. Turn it off when deploying.
-    app.run(debug=True, port=5000)
+    app.run(debug=False, port=5000)
+
+

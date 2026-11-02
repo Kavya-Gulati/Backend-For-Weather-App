@@ -75,6 +75,7 @@ def fetch_weather(city):
         raise WeatherError(f"Weather service error ({response.status_code}).", 502)
 
     data = response.json()
+    print(data)
     weather = data["weather"][0]
 
     return {
@@ -86,3 +87,4 @@ def fetch_weather(city):
         "description": weather["description"],
         "emoji": get_weather_emoji(weather["id"]),
     }
+fetch_weather('delhi')
